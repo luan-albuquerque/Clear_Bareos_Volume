@@ -45,5 +45,21 @@ done <<<"$COUNT_SQL"
 echo ${arraysec[1]};
 ################################################
 
+########## LAÇO DO PURGE E TRUNCATE ############
+
+for i in $(seq 1 ${arraysec[1]});
+do 
+
+bconsole <<END_OF_DATA
+
+purge volume=${array[$i]}
+truncate volstatus=Purged volume=${array[$i]} yes 
+
+quit
+END_OF_DATA
+done
+
+
+
 
 
