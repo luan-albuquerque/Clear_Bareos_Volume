@@ -21,3 +21,15 @@ DATA_CLS=2021-01-26
 STORAGE=1;
 
 #################################################
+
+######## ARRAY OBTENDO OS VOLUMESNAMES #########
+VALUES_SQL=$(mysql -u $MYSQL_USER \
+                   -e "select CONVERT(VolumeName USING utf8) from Media where S$
+                      $DATABASE_NAME )
+array=()
+while read line
+do 
+[[ "$line" != '' ]] && array+=("$line")
+done <<< "$VALUES_SQL"
+echo ${array[1]};
+################################################
