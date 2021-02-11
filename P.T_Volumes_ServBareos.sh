@@ -46,9 +46,16 @@ echo ${arraysec[1]};
 ################################################
 
 ########## LAÇO DO PURGE E TRUNCATE ############
+#Criação de Logs 
+echo "LOG REGISTRADO $(date +%d_%m_%Y-%T)" >>  /var/lib/scriptBareos/$STORAGE/log_scriptCLS$(date +%d_%m_%Y).log
+echo "VOLUMES (PURGED) | STORAGE ID = $STORAGE | LASTWRITTEN < $DATA_CLS | QUANTIDADE ${arraysec[1]}" >>  /var/lib/scriptBareos/$STORAGE/log_scriptCLS$(date +%d_%m_%Y).log
+
 
 for i in $(seq 1 ${arraysec[1]});
 do 
+
+#Registrar os volumes que foram exluidos
+echo "volume -> ${array[$i]}" >>  /var/lib/scriptBareos/$STORAGE/log_scriptCLS$(date +%d_%m_%Y).log
 
 bconsole <<END_OF_DATA
 
@@ -58,6 +65,10 @@ truncate volstatus=Purged volume=${array[$i]} yes
 quit
 END_OF_DATA
 done
+#Registrar Fim
+echo " FIM DE REGISTRO DE LOG -> $(date +%d_%m_%Y-%T)" >> /var/lib/scriptBareos/$STORAGE/log_scriptCLS$(date +%d_%m_%Y).log
+
+
 
 
 
