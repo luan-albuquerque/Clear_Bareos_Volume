@@ -33,3 +33,17 @@ do
 done <<< "$VALUES_SQL"
 echo ${array[1]};
 ################################################
+
+#### ARRAY OBTENDO CONTADOR DOS VOLUMENAMES ####
+COUNT_SQL=$(mysql -u root -e "select COUNT(VolumeName) from Media where Storage$
+
+arraysec=()
+while read count_line
+do
+[[ "$count_line" != '' ]] && arraysec+=("$count_line")
+done <<<"$COUNT_SQL"
+echo ${arraysec[1]};
+################################################
+
+
+
