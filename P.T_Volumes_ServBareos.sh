@@ -24,8 +24,9 @@ STORAGE=1;
 
 ######## ARRAY OBTENDO OS VOLUMESNAMES #########
 VALUES_SQL=$(mysql -u $MYSQL_USER \
-                   -e "select CONVERT(VolumeName USING utf8) from Media where S$
+                   -e "select CONVERT(VolumeName USING utf8) from Media where StorageId=$STORAGE and LastWritten < '$DATA_CLS' group by LastWritten" \
                       $DATABASE_NAME )
+
 array=()
 while read line
 do 
@@ -35,7 +36,7 @@ echo ${array[1]};
 ################################################
 
 #### ARRAY OBTENDO CONTADOR DOS VOLUMENAMES ####
-COUNT_SQL=$(mysql -u root -e "select COUNT(VolumeName) from Media where Storage$
+COUNT_SQL=$(mysql -u root -e "select COUNT(VolumeName) from Media where StorageId=$STORAGE and LastWritten < '$DATA_CLS'" $DATABASE_NAME)
 
 arraysec=()
 while read count_line
@@ -61,6 +62,7 @@ bconsole <<END_OF_DATA
 
 purge volume=${array[$i]}
 truncate volstatus=Purged volume=${array[$i]} yes 
+delete volume=${array[$i]} yes
 
 quit
 END_OF_DATA
